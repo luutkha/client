@@ -33,4 +33,5 @@ export interface User {
   email: string
   role: string[]
   createdAt: string
+  name:string
 }

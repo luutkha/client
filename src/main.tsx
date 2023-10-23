@@ -5,12 +5,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { store } from "./app/store";
 import "./index.css";
 
+
 import { Protected } from "./middleware/Protected";
+import CreateChatGroupForm from "./routes/chat-group/CreateChatGroupForm";
 import RootLayout from "./routes/RootLayout";
 const Home = lazy(() => import("./routes/Home"));
 const ErrorPage = lazy(() => import("./routes/ErrorPage"));
 const Auth = lazy(() => import("./routes/auth/AuthenticationForm/AuthenticationForm"));
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -19,10 +20,21 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <Protected>
+          <Home />
+        </Protected>
+        ,
       },
-     
-     // if path is need to logged in, wrap it in to <Protected/> component 
+      {
+        path: "/group/:id",
+        element: (
+          <Protected>
+            <CreateChatGroupForm />
+          </Protected>
+        ),
+      },
+
+      // if path is need to logged in, wrap it in to <Protected/> component 
       // {
       //   path: "users/:id",
       //   element: (
@@ -32,14 +44,15 @@ const router = createBrowserRouter([
       //   ),
       // },
       {
-        path: "auth/login",
-       element: <Auth />,
+        path: "auth",
+        element: <Auth />,
       }
     ],
   },
 
- 
+
 ]);
+
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
